@@ -1,7 +1,10 @@
 pragma Singleton
 
+import QtQuick
 import Quickshell
 import Quickshell.Io
+
+import qs.util
 
 Singleton {
     id: root
@@ -12,32 +15,35 @@ Singleton {
 
     property list<int> bars
 
+    readonly property string configPath: Paths.cache + "/cava_conf.toml"
+
+    Component.onCompleted: {
+        Quickshell.execDetached(["sh", "-c", `printf '
+[general]
+framerate=${root.framerate}
+bars=${root.quantity}
+sleep_timer=3
+[output]
+channels=mono
+method=raw
+raw_target=/dev/stdout
+data_format=ascii
+ascii_max_range=100' > "${configPath}"`]);
+    }
+
+    // TODO: auto create cache folder
+
     Process {
         id: cava
 
-        command: ["sh", "-c", `printf '[general]\nframerate=${root.framerate}\nbars=${root.quantity}\nsleep_timer=3\n[output]\nchannels=mono\nmethod=raw\nraw_target=/dev/stdout\ndata_format=ascii\nascii_max_range=100' | cava -p /dev/stdin`]
+        command: ["sh", "-c", `cava -p ${root.configPath}`]
         running: root.active
 
         stdout: SplitParser {
             onRead: text => {
                 let volumes = text.split(";").map(v => Math.min(Math.max(v, 1), 100));
                 root.bars = volumes;
-            // print(root.bars);
             }
         }
-
-        // stderr: SplitParser {
-        //     onRead: text => cava.running = false
-        // }
-
-        // on crash restart
-        // onRunningChanged: {
-        //     if (root.active && !running) {
-        //         running = true;
-        //     }
-        //
-        //     if (!running)
-        //         root.bars = [0];
-        // }
     }
 }
