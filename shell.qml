@@ -4,4 +4,5 @@ import qs.ui.windows
 
 ShellRoot {
     WidgetsWindow {}
+    OverlayWindow {}
 }
