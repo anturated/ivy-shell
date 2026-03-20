@@ -32,11 +32,14 @@ Variants {
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
-            DesktopGif {
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left
-                anchors.margins: 30
-            }
+            // NOTE: animated images are unoptimized or somethign idk
+            // switching workspaces and moving windows feels jittery
+            //
+            // DesktopGif {
+            //     anchors.bottom: parent.bottom
+            //     anchors.left: parent.left
+            //     anchors.margins: 30
+            // }
         }
     }
 }
