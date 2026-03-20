@@ -36,7 +36,7 @@ ToastWrapper {
         width: Appearance.toast.thickness
         height: layout.height + 30
         color: Colors.background
-        radius: Appearance.toast.rounding
+        radius: width / 2
 
         CustomRect {
             id: slider
