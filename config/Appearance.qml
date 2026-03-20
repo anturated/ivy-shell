@@ -12,7 +12,7 @@ Singleton {
     readonly property Toasts toast: Toasts {}
 
     component Toasts: QtObject {
-        readonly property int thickness: 20
+        readonly property int thickness: 35
         readonly property int margin: 3
         readonly property int rounding: root.raduis.l
     }
