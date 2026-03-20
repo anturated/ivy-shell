@@ -39,12 +39,28 @@ ToastWrapper {
             Behavior on y {
                 Animations.BouncyNumber {}
             }
-
             Behavior on width {
                 Animations.CaelestialNumber {}
             }
             Behavior on height {
                 Animations.CaelestialNumber {}
+            }
+        }
+
+        Connections {
+            target: root.tapHandler
+
+            function onTapped() {
+                let event = root.tapHandler.point.position;
+
+                let target = layout.children.find(c => {
+                    let top = c.y + layout.y - layout.spacing / 2;
+                    let bot = top + c.height + layout.spacing / 2;
+
+                    return top < event.y && event.y < bot;
+                });
+
+                target?.activate();
             }
         }
 
@@ -63,78 +79,6 @@ ToastWrapper {
 
                 Indicator {
                     bg_slider: slider
-                }
-            }
-        }
-    }
-
-    component Indicator: Item {
-        id: indicator
-        required property HyprlandWorkspace modelData
-        required property Item bg_slider
-
-        Layout.preferredHeight: childrenRect.height
-        Layout.preferredWidth: childrenRect.width
-        Layout.alignment: Qt.AlignCenter
-
-        function checkActive() {
-            if (indicator.modelData.active)
-                indicator.bg_slider.target = indicator;
-        }
-
-        Component.onCompleted: {
-            indicator.checkActive();
-        }
-
-        Connections {
-            target: indicator.modelData
-
-            function onActiveChanged() {
-                indicator.checkActive();
-            }
-        }
-
-        ColumnLayout {
-            spacing: -3
-            CustomText {
-                id: wsName
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                Layout.alignment: Qt.AlignCenter
-
-                color: modelData.active ? Colors.on_primary : Colors.on_background
-                font.pointSize: 12
-                text: {
-                    if (modelData.name.includes("special:"))
-                        return "死";
-
-                    const map = {
-                        "1": "一",
-                        "2": "二",
-                        "3": "三",
-                        "4": "四",
-                        "5": "五",
-                        "6": "六",
-                        "7": "七",
-                        "8": "八",
-                        "9": "九",
-                        "10": "十"
-                    };
-
-                    return map[modelData.name] ?? modelData.name;
-                }
-            }
-
-            Repeater {
-                model: indicator.modelData ? Hypr.windowsForWorkspace(indicator.modelData).map(w => w.lastIpcObject) : []
-
-                AppIcon {
-                    Layout.alignment: Qt.AlignCenter
-                    color: indicator.modelData.active ? Colors.on_primary : Colors.on_background
-                    skipAnimation: true
-                    Behavior on color {
-                        Animations.CaelestialColor {}
-                    }
                 }
             }
         }

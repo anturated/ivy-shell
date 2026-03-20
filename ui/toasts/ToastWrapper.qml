@@ -24,6 +24,9 @@ Item {
 
     default property alias content: contentItem.data
 
+    property alias tapHandler: th
+    property alias hoverHandler: hh
+
     implicitWidth: contentItem.width + Appearance.toast.margin * 2
     implicitHeight: contentItem.height + Appearance.toast.margin * 2
     state: ToastWrapper.Hidden
@@ -68,12 +71,17 @@ Item {
     ]
 
     HoverHandler {
+        id: hh
         onHoveredChanged: {
             if (hovered)
                 root.state = ToastWrapper.Peek;
             else if (!root.forceOpen)
                 root.state = ToastWrapper.Hidden;
         }
+    }
+
+    TapHandler {
+        id: th
     }
 
     Behavior on anchors.leftMargin {
