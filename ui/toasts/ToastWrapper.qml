@@ -58,7 +58,12 @@ Item {
         },
         State {
             name: ToastWrapper.Peek
-            PropertyChanges {}
+            PropertyChanges {
+                root.anchors.leftMargin: 0
+                root.anchors.rightMargin: 0
+                root.anchors.topMargin: 0
+                root.anchors.bottomMargin: 0
+            }
         }
     ]
 
