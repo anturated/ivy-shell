@@ -1,11 +1,10 @@
 import qs.ui.custom
+import qs.ui.toasts
 import qs.config
 
-Toast {
-    collapseTo: Toast.Collapse.Right
-
+ToastWrapper {
     CustomRect {
-        width: 300
+        width: Appearance.toast.thickness
         height: 200
         color: Colors.background
     }
