@@ -21,5 +21,7 @@ Item {
         collapseTo: ToastWrapper.Top
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
+
+        screen: root.screen
     }
 }

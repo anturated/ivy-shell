@@ -12,8 +12,7 @@ import qs.services
 ToastWrapper {
     id: root
 
-    required property ShellScreen screen
-    readonly property var activeWS: Hypr.workspacesForScreen(screen).filter(w => w.active)[0]
+    readonly property var activeWS: Hypr.workspacesForScreen(root.screen).filter(w => w.active)[0]
 
     Timer {
         id: peek_timer
