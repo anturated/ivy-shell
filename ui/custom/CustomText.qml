@@ -1,7 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import "../config"
+import qs.config
 
 // wrapper for Text, adds animations and whatnot
 Text {

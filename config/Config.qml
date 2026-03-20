@@ -3,7 +3,6 @@ pragma Singleton
 import Quickshell
 import Quickshell.Io
 
-import "subconfigs"
 import qs.util
 
 Singleton {
