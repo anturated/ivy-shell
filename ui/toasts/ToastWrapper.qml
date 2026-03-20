@@ -34,6 +34,8 @@ Item {
     onForceOpenChanged: {
         if (forceOpen)
             state = ToastWrapper.Peek;
+        else if (!hoverHandler.hovered)
+            state = ToastWrapper.Hidden;
     }
 
     // CustomRect {

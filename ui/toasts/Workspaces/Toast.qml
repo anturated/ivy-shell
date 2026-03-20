@@ -13,6 +13,23 @@ ToastWrapper {
     id: root
 
     required property ShellScreen screen
+    readonly property var activeWS: Hypr.workspacesForScreen(screen).filter(w => w.active)[0]
+
+    Timer {
+        id: peek_timer
+        interval: 1000
+        running: false
+        repeat: false
+
+        onTriggered: {
+            root.forceOpen = false;
+        }
+    }
+
+    onActiveWSChanged: {
+        root.forceOpen = true;
+        peek_timer.restart();
+    }
 
     CustomRect {
         id: container
