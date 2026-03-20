@@ -35,6 +35,12 @@ Singleton {
         easing.bezierCurve: Animations.curves.expressiveEffects
     }
 
+    component BouncyNumber: NumberAnimation {
+        easing.type: Easing.BezierSpline
+        duration: Animations.durations.normal
+        easing.bezierCurve: Animations.curves.expressiveDefaultSpatial
+    }
+
     component CaelestialColor: ColorAnimation {
         easing.type: Easing.BezierSpline
         duration: Animations.durations.normal

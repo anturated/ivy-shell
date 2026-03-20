@@ -7,6 +7,8 @@ import qs.config
 Text {
     id: root
 
+    property bool skipAnimation: false
+
     renderType: Text.NativeRendering
     textFormat: Text.PlainText
     color: Colors.current.tertiary
@@ -15,6 +17,7 @@ Text {
 
     // animations
     Behavior on color {
+        enabled: !root.skipAnimaiton
         Animations.CaelestialColor {}
     }
 }

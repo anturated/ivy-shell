@@ -58,6 +58,7 @@ Variants {
                 id: toasts
 
                 anchors.fill: parent
+                screen: scope.modelData
             }
         }
     }
