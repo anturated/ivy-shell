@@ -7,5 +7,6 @@ ToastWrapper {
         width: Appearance.toast.thickness
         height: 200
         color: Colors.background
+        radius: Appearance.toast.rounding
     }
 }
