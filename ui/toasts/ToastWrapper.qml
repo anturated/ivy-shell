@@ -28,11 +28,16 @@ Item {
     implicitHeight: contentItem.height + Appearance.toast.margin * 2
     state: ToastWrapper.Hidden
 
-    CustomRect {
-        id: visual
-        color: Colors.primary
-        anchors.fill: parent
+    onForceOpenChanged: {
+        if (forceOpen)
+            state = ToastWrapper.Peek;
     }
+
+    // CustomRect {
+    //     id: visual
+    //     color: Colors.primary
+    //     anchors.fill: parent
+    // }
 
     QtObject {
         id: internal
@@ -53,9 +58,7 @@ Item {
         },
         State {
             name: ToastWrapper.Peek
-            PropertyChanges {
-                visual.color: Colors.error
-            }
+            PropertyChanges {}
         }
     ]
 
@@ -66,6 +69,19 @@ Item {
             else if (!root.forceOpen)
                 root.state = ToastWrapper.Hidden;
         }
+    }
+
+    Behavior on anchors.leftMargin {
+        Animations.CaelestialNumber {}
+    }
+    Behavior on anchors.rightMargin {
+        Animations.CaelestialNumber {}
+    }
+    Behavior on anchors.topMargin {
+        Animations.CaelestialNumber {}
+    }
+    Behavior on anchors.bottomMargin {
+        Animations.CaelestialNumber {}
     }
 
     // this is for children ( children go here )

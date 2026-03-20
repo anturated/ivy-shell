@@ -14,4 +14,7 @@ Text {
     font.pointSize: 10
 
     // animations
+    Behavior on color {
+        Animations.CaelestialColor {}
+    }
 }
