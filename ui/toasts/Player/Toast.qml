@@ -24,6 +24,18 @@ ToastWrapper {
 
         onTriggered: {
             bg.state = ToastWrapper.Full;
+            root.forceOpen = true;
+        }
+    }
+
+    Timer {
+        id: collapseTimer
+        interval: Animations.durations.normal
+        repeat: false
+        running: false
+
+        onTriggered: {
+            root.forceOpen = false;
         }
     }
 
@@ -31,9 +43,11 @@ ToastWrapper {
         target: root.hoverHandler
         function onHoveredChanged() {
             if (root.hoverHandler.hovered) {
-                switchTimer.start();
+                switchTimer.restart();
+                collapseTimer.stop();
             } else {
                 switchTimer.stop();
+                collapseTimer.restart();
                 bg.state = ToastWrapper.Peek;
             }
         }
