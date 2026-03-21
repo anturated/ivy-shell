@@ -149,14 +149,15 @@ ToastWrapper {
                 }
             }
 
+            // HACK: many animations can probably be removed
+
             // name/artist
             Item {
-                // FIXME: the text randomly waddles away to the center of free space for no reason
                 Layout.preferredHeight: dimensions
                 Behavior on Layout.preferredHeight {
                     Animations.CaelestialNumber {}
                 }
-                Layout.preferredWidth: childrenRect.width
+                Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 
                 Column {
