@@ -91,7 +91,8 @@ ToastWrapper {
 
         Loader {
             id: coverLoader
-            Layout.preferredHeight: big ? 100 : Appearance.toast.thickness
+            Layout.margins: Appearance.spacing.s
+            Layout.preferredHeight: big ? 100 : (Appearance.toast.thickness - Layout.margins * 2)
 
             Layout.preferredWidth: height
             active: bg.hasCover
