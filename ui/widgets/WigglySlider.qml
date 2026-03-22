@@ -10,18 +10,26 @@ Slider {
     from: 0
     to: 100
 
-    property int barHeight: Appearance.spacing.m
+    property int barThickness: Appearance.spacing.m
+    property string leftBarColor: Colors.primary
+    property string rightBarColor: Colors.primary_container
+    property int knobThickness: Appearance.spacing.m
+    property string knobColor: leftBarColor
+    property bool wiggle: false
     property int gap: Appearance.spacing.m
+    property real frequency: 5
+
+    property real wiggleSmoothingMod: wiggle ? 1 : 0
 
     // override elements (https://doc.qt.io/qt-6/qml-qtquick-controls-slider-members.html)
     // the knob you drag
     handle: CustomRect {
         id: knob
 
-        color: Colors.primary
-        radius: height / 2
+        color: root.knobColor
+        radius: width / 2
         x: root.visualPosition * (root.availableWidth - width)
-        implicitWidth: Appearance.spacing.m
+        implicitWidth: root.knobThickness
         implicitHeight: root.height
     }
 
@@ -35,10 +43,25 @@ Slider {
             height: root.height
 
             Loader {
-                active: true
+                active: root.wiggleSmoothingMod > 0
                 anchors.fill: parent
 
-                sourceComponent: CommonWave {}
+                sourceComponent: CommonWave {
+                    color: root.leftBarColor
+                }
+            }
+
+            Loader {
+                active: root.wiggleSmoothingMod == 0
+                height: root.barThickness
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+
+                sourceComponent: CustomRect {
+                    color: root.leftBarColor
+                    radius: height / 2
+                }
             }
         }
         // right part
@@ -49,27 +72,44 @@ Slider {
             height: root.height
 
             Loader {
-                active: true
+                active: root.wiggleSmoothingMod > 0
                 anchors.fill: parent
 
                 sourceComponent: CommonWave {
-                    color: Colors.primary_container
+                    color: root.rightBarColor
                     phaseShift: knob.x + knob.width + root.gap
+                }
+            }
+
+            Loader {
+                active: root.wiggleSmoothingMod == 0
+                height: root.barThickness
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+
+                sourceComponent: CustomRect {
+                    color: root.rightBarColor
+                    radius: height / 2
                 }
             }
         }
     }
 
+    Behavior on wiggleSmoothingMod {
+        Animations.CaelestialNumber {}
+    }
+
     component CommonWave: WavyLine {
-        readonly property real freqMultiplier: 5
-        amplitude: 0.5
+        amplitude: 0.3 * root.wiggleSmoothingMod
         fullLength: width + knob.width / 2 + root.gap
-        frequency: fullLength / root.width * freqMultiplier
+        frequency: fullLength / root.width * root.frequency
+        thickness: root.barThickness
     }
 
     component CommonRect: CustomRect {
         radius: height / 2
-        height: root.barHeight
+        height: root.barThickness
         anchors.verticalCenter: parent.verticalCenter
     }
 }

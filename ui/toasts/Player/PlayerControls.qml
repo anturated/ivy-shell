@@ -45,9 +45,9 @@ ColumnLayout {
             Layout.preferredHeight: Appearance.toast.thickness * 2 / 3
             to: Players.active.length
             value: Players.active.position
+            wiggle: Players.active.isPlaying
         }
         LenText {
-
             text: Time.formatDynamic(Players.active.length)
         }
     }
