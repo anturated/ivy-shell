@@ -14,8 +14,6 @@ ColumnLayout {
     //     anchors.fill: parent
     // }
 
-    anchors.left: parent.left
-    anchors.right: parent.right
     // control buttons
     RowLayout {
         spacing: 30

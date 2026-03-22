@@ -53,17 +53,24 @@ ToastWrapper {
 
         radius: Appearance.toast.rounding
         color: Colors.background
+        width: col.width + col.anchors.margins * 2
 
         Column {
-            anchors.fill: parent
+            id: col
+            // anchors.fill: parent
+            anchors.left: parent.left
+            anchors.top: parent.top
+            width: musicInfo.width
             anchors.margins: bg.state == ToastWrapper.Full ? Appearance.spacing.m : Appearance.spacing.s
             spacing: 30
 
             MusicInfo {
+                id: musicInfo
                 big: bg.state == ToastWrapper.Full
             }
 
             Loader {
+                id: controls
                 anchors.left: parent.left
                 anchors.right: parent.right
 
@@ -84,22 +91,17 @@ ToastWrapper {
             State {
                 name: ToastWrapper.Peek
                 PropertyChanges {
-                    bg.width: 300
-                    bg.height: Appearance.toast.thickness
+                    bg.height: musicInfo.dimensions + col.anchors.margins * 2
                 }
             },
             State {
                 name: ToastWrapper.Full
                 PropertyChanges {
-                    bg.width: 400
-                    bg.height: 300
+                    bg.height: musicInfo.dimensions + col.anchors.margins * 2 + controls.height + col.spacing
                 }
             }
         ]
 
-        Behavior on width {
-            Animations.CaelestialNumber {}
-        }
         Behavior on height {
             Animations.CaelestialNumber {}
         }

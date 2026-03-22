@@ -16,13 +16,18 @@ CustomClipRect {
     readonly property bool hasCover: Boolean(cover)
     readonly property real dimensions: big ? 100 : (Appearance.toast.thickness - parent.anchors.margins * 2)
     height: dimensions
+    width: big ? 400 : (dimensions + trackName.contentWidth + Appearance.spacing.m)
 
     Behavior on height {
         Animations.CaelestialNumber {}
     }
 
-    anchors.left: parent.left
-    anchors.right: parent.right
+    Behavior on width {
+        Animations.CaelestialNumber {}
+    }
+
+    // anchors.left: parent.left
+    // anchors.right: parent.right
 
     FadedImage {
         source: Players.active.trackArtUrl
@@ -40,6 +45,7 @@ CustomClipRect {
 
     RowLayout {
         anchors.fill: parent
+        spacing: Appearance.spacing.m
         // cover
         Loader {
             id: coverLoader
