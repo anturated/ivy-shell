@@ -20,8 +20,8 @@ ColumnLayout {
 
         Icon {
             text: "shuffle"
-            available: Players.active?.shuffleSupported
-            active: Players.active?.shuffle
+            available: Players.active?.shuffleSupported ?? false
+            active: Players.active?.shuffle ?? false
 
             TapHandler {
                 onTapped: {
@@ -32,7 +32,7 @@ ColumnLayout {
         }
         Icon {
             text: "skip_previous"
-            available: Players.active?.canGoPrevious
+            available: Players.active?.canGoPrevious ?? false
 
             TapHandler {
                 onTapped: {
@@ -43,7 +43,7 @@ ColumnLayout {
         }
         CustomRect {
             id: play
-            readonly property bool available: Players.active?.canTogglePlaying
+            readonly property bool available: Players.active?.canTogglePlaying ?? false
             Layout.preferredHeight: 30
             Layout.preferredWidth: Layout.preferredHeight
             radius: Layout.preferredHeight / 2
@@ -64,7 +64,7 @@ ColumnLayout {
         }
         Icon {
             text: "skip_next"
-            available: Players.active?.canGoNext
+            available: Players.active?.canGoNext ?? false
 
             TapHandler {
                 onTapped: {
@@ -75,7 +75,7 @@ ColumnLayout {
         }
         Icon {
             text: Players.active?.loopState == MprisLoopState.Track ? "repeat_one" : "repeat"
-            available: Players.active?.loopSupported
+            available: Players.active?.loopSupported ?? false
             active: Players.active?.loopState != MprisLoopState.None
 
             TapHandler {
@@ -122,7 +122,7 @@ ColumnLayout {
 
     FrameAnimation {
         id: playbackUpdate
-        running: Players.active?.isPlaying && !slider.pressed
+        running: (Players.active?.isPlaying ?? false) && !slider.pressed
         // interval: 1000
         // repeat: true
         onTriggered: {
