@@ -123,7 +123,7 @@ CustomClipRect {
 
                 CustomText {
                     id: trackArtist
-                    text: Players.active?.trackArtist ?? "unknown"
+                    text: Players.active?.trackArtist ?? "Nothing to play..."
                     anchors.bottom: parent.bottom
                     visible: opacity > 0
                     opacity: mi.big ? 1 : 0
@@ -134,7 +134,7 @@ CustomClipRect {
 
                 CustomText {
                     id: trackName
-                    text: Players.active?.trackTitle ?? "unknown"
+                    text: Players.active?.trackTitle ?? "牛鼎烹鸡"
                     color: Colors.on_background
 
                     anchors.top: parent.top
