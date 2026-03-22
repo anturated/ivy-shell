@@ -95,25 +95,32 @@ CustomClipRect {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 
-            Column {
+            Item {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                spacing: Appearance.spacing.l
+                height: mi.big ? trackName.contentHeight + Appearance.spacing.l + trackArtist.contentHeight : trackName.contentHeight
+
+                CustomText {
+                    id: trackArtist
+                    text: Players.active.trackArtist
+                    anchors.bottom: parent.bottom
+                    visible: opacity > 0
+                    opacity: mi.big ? 1 : 0
+                    Behavior on opacity {
+                        Animations.CaelestialNumber {}
+                    }
+                }
 
                 CustomText {
                     id: trackName
                     text: Players.active.trackTitle
                     color: Colors.on_background
 
-                    Layout.alignment: big ? Qt.AlignBottom : Qt.AlignCenter
+                    anchors.top: parent.top
                 }
 
-                Loader {
-                    active: mi.big
-                    visible: active
-                    sourceComponent: CustomText {
-                        text: Players.active.trackArtist
-                    }
+                Behavior on height {
+                    Animations.CaelestialNumber {}
                 }
             }
         }
