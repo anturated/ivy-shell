@@ -53,7 +53,6 @@ ToastWrapper {
 
         radius: Appearance.toast.rounding
         color: Colors.background
-        width: col.width + col.anchors.margins * 2
 
         Column {
             id: col
@@ -91,12 +90,14 @@ ToastWrapper {
             State {
                 name: ToastWrapper.Peek
                 PropertyChanges {
+                    bg.width: col.width + col.anchors.margins + Appearance.spacing.m
                     bg.height: musicInfo.dimensions + col.anchors.margins * 2
                 }
             },
             State {
                 name: ToastWrapper.Full
                 PropertyChanges {
+                    bg.width: col.width + col.anchors.margins * 2
                     bg.height: musicInfo.dimensions + col.anchors.margins * 2 + controls.height + col.spacing
                 }
             }
