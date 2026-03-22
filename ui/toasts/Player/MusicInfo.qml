@@ -74,7 +74,7 @@ CustomClipRect {
                         sourceItem: Rectangle {
                             height: coverLoader.Layout.preferredHeight
                             width: coverLoader.Layout.preferredWidth
-                            radius: mi.big ? mi.dimensions / 2 : radius
+                            radius: mi.big ? mi.dimensions / 2 : Appearance.toast.rounding
                             Behavior on radius {
                                 Animations.CaelestialNumber {}
                             }
