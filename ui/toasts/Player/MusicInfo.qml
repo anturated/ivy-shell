@@ -62,7 +62,7 @@ CustomClipRect {
 
     RowLayout {
         anchors.fill: parent
-        spacing: Appearance.spacing.m
+        spacing: mi.big ? Appearance.spacing.xl : Appearance.spacing.m
         // cover
         Loader {
             id: coverLoader
