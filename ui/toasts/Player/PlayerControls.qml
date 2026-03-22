@@ -28,7 +28,7 @@ ColumnLayout {
             radius: Layout.preferredHeight / 2
             color: Colors.on_background
             Icon {
-                text: Players.active?.isPlaying ? "pause" : "play_arrow"
+                text: (Players.active?.isPlaying ?? false) ? "pause" : "play_arrow"
                 font.pointSize: Players.active?.isPlaying ? 17 : 23
                 color: Colors.background
                 anchors.centerIn: parent
@@ -44,17 +44,18 @@ ColumnLayout {
 
     RowLayout {
         LenText {
-            text: Time.formatDynamic(Players.active.position)
+            text: Time.formatDynamic(Players.active?.position ?? 0)
         }
         WigglySlider {
             Layout.fillWidth: true
             Layout.preferredHeight: Appearance.toast.thickness * 2 / 3
-            to: Players.active.length
-            value: Players.active.position
-            wiggle: Players.active.isPlaying
+            to: Players.active?.length ?? 100
+            value: Players.active?.position ?? 0
+            wiggle: false
+            // wiggle: Players.active?.isPlaying ?? false
         }
         LenText {
-            text: Time.formatDynamic(Players.active.length)
+            text: Time.formatDynamic(Players.active?.length ?? 0)
         }
     }
 

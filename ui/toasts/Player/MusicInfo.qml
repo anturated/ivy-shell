@@ -12,11 +12,11 @@ CustomClipRect {
     id: mi
 
     property bool big: false
-    readonly property string cover: Players.active.trackArtUrl
+    readonly property string cover: Players.active?.trackArtUrl ?? ""
     readonly property bool hasCover: Boolean(cover)
     readonly property real dimensions: big ? 100 : (Appearance.toast.thickness - parent.anchors.margins * 2)
     height: dimensions
-    width: big ? 400 : (dimensions + trackName.contentWidth + Appearance.spacing.m)
+    width: big ? 400 : ((hasCover ? dimensions : 0) + trackName.contentWidth + Appearance.spacing.m)
 
     onBigChanged: {
         if (big)
@@ -46,18 +46,21 @@ CustomClipRect {
     // anchors.left: parent.left
     // anchors.right: parent.right
 
-    FadedImage {
-        source: Players.active.trackArtUrl
-        width: mi.width
-        height: mi.dimensions
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        // anchors.fill: parent
-        Behavior on height {
-            Animations.CaelestialNumber {}
+    // bg image
+    Loader {
+        active: mi.hasCover
+        sourceComponent: FadedImage {
+            source: Players.active.trackArtUrl
+            width: mi.width
+            height: mi.dimensions
+            anchors.top: parent.top
+            // anchors.fill: parent
+            Behavior on height {
+                Animations.CaelestialNumber {}
+            }
+            opacity: mi.big ? 1 : 0
+            radius: Appearance.toast.rounding
         }
-        opacity: mi.big ? 1 : 0
-        radius: Appearance.toast.rounding
     }
 
     RowLayout {
@@ -67,7 +70,8 @@ CustomClipRect {
         Loader {
             id: coverLoader
 
-            active: hasCover
+            active: mi.hasCover
+            visible: active
             Layout.preferredHeight: dimensions
             Layout.preferredWidth: dimensions
             Layout.alignment: Qt.AlignLeft | Qt.AlignTop
@@ -119,7 +123,7 @@ CustomClipRect {
 
                 CustomText {
                     id: trackArtist
-                    text: Players.active.trackArtist
+                    text: Players.active?.trackArtist ?? "unknown"
                     anchors.bottom: parent.bottom
                     visible: opacity > 0
                     opacity: mi.big ? 1 : 0
@@ -130,7 +134,7 @@ CustomClipRect {
 
                 CustomText {
                     id: trackName
-                    text: Players.active.trackTitle
+                    text: Players.active?.trackTitle ?? "unknown"
                     color: Colors.on_background
 
                     anchors.top: parent.top

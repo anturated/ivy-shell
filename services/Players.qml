@@ -7,5 +7,5 @@ Singleton {
     id: root
 
     readonly property list<MprisPlayer> list: Mpris.players.values
-    readonly property MprisPlayer active: list[0]
+    readonly property var active: list[0]
 }
