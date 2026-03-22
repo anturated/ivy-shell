@@ -1,4 +1,5 @@
 import qs.config
+import qs.ui.custom
 
 // icons for... pretty much everything
 CustomText {
