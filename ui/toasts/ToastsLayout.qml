@@ -3,6 +3,7 @@ import QtQuick
 
 import "Workspaces" as Workspaces
 import "Dashboard" as Dashboard
+import "Player" as Player
 
 Item {
     id: root
@@ -20,6 +21,14 @@ Item {
     Dashboard.Toast {
         collapseTo: ToastWrapper.Top
         anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+
+        screen: root.screen
+    }
+
+    Player.Toast {
+        collapseTo: ToastWrapper.Top
+        anchors.left: parent.left
         anchors.top: parent.top
 
         screen: root.screen

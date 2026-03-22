@@ -11,7 +11,7 @@ Text {
 
     renderType: Text.NativeRendering
     textFormat: Text.PlainText
-    color: Colors.current.tertiary
+    color: Colors.tertiary
     font.family: "Monaspace Argon"
     font.pointSize: 10
 

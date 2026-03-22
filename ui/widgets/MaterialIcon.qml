@@ -1,4 +1,7 @@
+import QtQuick
+
 import qs.config
+import qs.ui.custom
 
 // icons for... pretty much everything
 CustomText {
@@ -15,4 +18,6 @@ CustomText {
             opsz: fontInfo.pixelSize,
             wght: fontInfo.weight
         })
+    horizontalAlignment: Text.AlignHCenter
+    verticalAlignment: Text.AlignVCenter
 }

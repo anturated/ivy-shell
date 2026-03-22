@@ -9,14 +9,15 @@ Item {
     id: root
 
     enum Collapse {
-        Top = 1,
-        Bottom = 2,
-        Left = 3,
-        Right = 4
+        Top = 10,
+        Bottom = 11,
+        Left = 12,
+        Right = 13
     }
     enum State {
         Hidden = 0,
-        Peek = 1
+        Peek = 1,
+        Full = 2
     }
 
     required property int collapseTo
