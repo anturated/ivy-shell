@@ -12,7 +12,7 @@ Slider {
 
     property int barThickness: Appearance.spacing.m
     property string leftBarColor: Colors.primary
-    property string rightBarColor: Colors.primary_container
+    property string rightBarColor: Colors.outline_variant
     property int knobThickness: Appearance.spacing.m
     property string knobColor: leftBarColor
     property bool wiggle: false
