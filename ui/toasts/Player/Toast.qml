@@ -57,8 +57,25 @@ ToastWrapper {
         Column {
             anchors.fill: parent
             anchors.margins: bg.state == ToastWrapper.Full ? Appearance.spacing.m : Appearance.spacing.s
+            spacing: 30
+
             MusicInfo {
                 big: bg.state == ToastWrapper.Full
+            }
+
+            Loader {
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                opacity: bg.state == ToastWrapper.Full ? 1 : 0
+                active: opacity > 0
+                visible: active
+
+                sourceComponent: PlayerControls {}
+
+                Behavior on opacity {
+                    Animations.CaelestialNumber {}
+                }
             }
         }
 
