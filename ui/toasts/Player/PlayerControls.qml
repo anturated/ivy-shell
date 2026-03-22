@@ -9,14 +9,11 @@ import qs.services
 ColumnLayout {
     id: root
 
-    // CustomRect {
-    //     color: Colors.secondary
-    //     anchors.fill: parent
-    // }
+    spacing: Appearance.spacing.l
 
     // control buttons
     RowLayout {
-        spacing: 30
+        spacing: 20
         Layout.alignment: Qt.AlignHCenter
 
         Icon {
@@ -25,8 +22,17 @@ ColumnLayout {
         Icon {
             text: "skip_previous"
         }
-        Icon {
-            text: Players.active?.isPlaying ? "pause" : "play_arrow"
+        CustomRect {
+            Layout.preferredHeight: 30
+            Layout.preferredWidth: Layout.preferredHeight
+            radius: Layout.preferredHeight / 2
+            color: Colors.on_background
+            Icon {
+                text: Players.active?.isPlaying ? "pause" : "play_arrow"
+                font.pointSize: Players.active?.isPlaying ? 17 : 23
+                color: Colors.background
+                anchors.centerIn: parent
+            }
         }
         Icon {
             text: "skip_next"
@@ -63,7 +69,8 @@ ColumnLayout {
     }
 
     component Icon: MaterialIcon {
-        color: Colors.primary
+        color: Colors.on_background
+        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
     }
 
     component LenText: CustomText {

@@ -1,3 +1,5 @@
+import QtQuick
+
 import qs.config
 import qs.ui.custom
 
@@ -16,4 +18,6 @@ CustomText {
             opsz: fontInfo.pixelSize,
             wght: fontInfo.weight
         })
+    horizontalAlignment: Text.AlignHCenter
+    verticalAlignment: Text.AlignVCenter
 }
