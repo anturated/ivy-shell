@@ -11,6 +11,7 @@ CustomClipRect {
 
     property alias source: img.source
     property real fadeStart: 0.66
+    visible: opacity > 0
 
     Image {
         id: img
