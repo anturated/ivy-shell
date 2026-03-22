@@ -34,7 +34,7 @@ ToastWrapper {
         id: container
 
         width: Appearance.toast.thickness
-        height: layout.height + 30
+        height: layout.height + radius
         color: Colors.background
         radius: width / 2
 
