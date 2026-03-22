@@ -18,6 +18,23 @@ CustomClipRect {
     height: dimensions
     width: big ? 400 : (dimensions + trackName.contentWidth + Appearance.spacing.m)
 
+    onBigChanged: {
+        if (big)
+            coverAnim.restart();
+        else {
+            coverAnim.stop();
+            coverLoader.rotation = 0;
+        }
+    }
+
+    FrameAnimation {
+        id: coverAnim
+
+        onTriggered: {
+            coverLoader.rotation += 10 * frameTime;
+        }
+    }
+
     Behavior on height {
         Animations.CaelestialNumber {}
     }
