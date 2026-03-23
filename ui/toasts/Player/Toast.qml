@@ -60,8 +60,8 @@ ToastWrapper {
             anchors.left: parent.left
             anchors.top: parent.top
             width: musicInfo.width
-            anchors.margins: bg.state == ToastWrapper.Full ? Appearance.spacing.m : Appearance.spacing.s
-            spacing: 30
+            anchors.margins: bg.state == ToastWrapper.Full ? 0 : Appearance.spacing.s
+            spacing: 15
 
             MusicInfo {
                 id: musicInfo
@@ -72,6 +72,9 @@ ToastWrapper {
                 id: controls
                 anchors.left: parent.left
                 anchors.right: parent.right
+
+                anchors.margins: Appearance.spacing.xl
+                anchors.topMargin: 0
 
                 opacity: bg.state == ToastWrapper.Full ? 1 : 0
                 active: opacity > 0
@@ -98,7 +101,7 @@ ToastWrapper {
                 name: ToastWrapper.Full
                 PropertyChanges {
                     bg.width: col.width + col.anchors.margins * 2
-                    bg.height: musicInfo.dimensions + col.anchors.margins * 2 + controls.height + col.spacing
+                    bg.height: musicInfo.dimensions + col.anchors.margins * 2 + controls.height + col.spacing + Appearance.spacing.xl * 2 / 3
                 }
             }
         ]

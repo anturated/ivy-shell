@@ -15,7 +15,7 @@ ColumnLayout {
 
     // control buttons
     RowLayout {
-        spacing: 20
+        spacing: 18
         Layout.alignment: Qt.AlignHCenter
 
         Icon {
@@ -102,7 +102,8 @@ ColumnLayout {
             id: slider
             property real customValue
             Layout.fillWidth: true
-            Layout.preferredHeight: Appearance.toast.thickness * 2 / 3
+            Layout.preferredHeight: Appearance.toast.thickness / 2
+            barThickness: Appearance.spacing.s * 2
             to: Players.active?.length ?? 100
             value: Players.active?.position ?? 0
             wiggle: false
@@ -135,9 +136,13 @@ ColumnLayout {
         property bool active: false
         color: available ? active ? Colors.primary : Colors.on_background : Colors.outline
         Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+        font.pointSize: 15
     }
 
     component LenText: CustomText {
         color: Colors.on_background
+        font.pointSize: 9
+        font.family: "Maple Mono CN"
+        font.bold: true
     }
 }

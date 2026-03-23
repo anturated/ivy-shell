@@ -7,7 +7,15 @@ layout(location = 0) out vec2 vTexCoord;
 
 layout(std140, binding = 0) uniform buf {
     mat4 qt_Matrix;
-    float fadeStart; // Keep this here if you want it shared
+    float leftStart;
+    float leftEnd;
+    float rightStart;
+    float rightEnd;
+    
+    float topStart;
+    float topEnd;
+    float bottomStart;
+    float bottomEnd;
 };
 
 void main() {

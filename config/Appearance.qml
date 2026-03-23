@@ -22,7 +22,7 @@ Singleton {
         readonly property int s: 2
         readonly property int m: 5
         readonly property int l: 10
-        readonly property int xl: 12
+        readonly property int xl: 20
     }
 
     component Radii: QtObject {

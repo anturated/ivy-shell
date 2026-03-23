@@ -8,7 +8,7 @@ import qs.ui.custom
 import qs.ui.toasts
 import qs.ui.widgets
 
-CustomClipRect {
+CustomRect {
     id: mi
 
     property bool big: false
@@ -16,7 +16,7 @@ CustomClipRect {
     readonly property bool hasCover: Boolean(cover)
     readonly property real dimensions: big ? 100 : (Appearance.toast.thickness - parent.anchors.margins * 2)
     height: dimensions
-    width: big ? 400 : ((hasCover ? dimensions : 0) + trackName.contentWidth + Appearance.spacing.m)
+    width: big ? 400 : ((hasCover ? dimensions : 0) + trackWidth.contentWidth + Appearance.spacing.m)
 
     onBigChanged: {
         if (big)
@@ -54,12 +54,28 @@ CustomClipRect {
             width: mi.width
             height: mi.dimensions
             anchors.top: parent.top
-            // anchors.fill: parent
+
+            leftStart: 0.0
+            leftEnd: 0.5
+            leftIntensity: 0.8
+            bottomStart: 0.0
+            bottomEnd: 0.9
+            topStart: 0.0
+            topEnd: 0.1
+            topIntensity: 0.5
+            rightStart: 0.0
+            rightEnd: 0.03
+            rightIntensity: 0.5
             Behavior on height {
                 Animations.CaelestialNumber {}
             }
             opacity: mi.big ? 1 : 0
             radius: Appearance.toast.rounding
+
+            layer.enabled: true
+            layer.effect: MultiEffect {
+                brightness: -0.5
+            }
         }
     }
 
@@ -72,14 +88,24 @@ CustomClipRect {
 
             active: mi.hasCover
             visible: active
-            Layout.preferredHeight: dimensions
-            Layout.preferredWidth: dimensions
+            readonly property real dynOffset: mi.big ? 11 : 0
+            Layout.preferredHeight: dimensions - dynOffset
+            Layout.preferredWidth: dimensions - dynOffset
             Layout.alignment: Qt.AlignLeft | Qt.AlignTop
+            Layout.topMargin: dynOffset
+            Layout.leftMargin: mi.big ? 20 : 0
 
             Behavior on Layout.preferredWidth {
                 Animations.CaelestialNumber {}
             }
             Behavior on Layout.preferredHeight {
+                Animations.CaelestialNumber {}
+            }
+
+            Behavior on Layout.topMargin {
+                Animations.CaelestialNumber {}
+            }
+            Behavior on Layout.leftMargin {
                 Animations.CaelestialNumber {}
             }
             sourceComponent: Image {
@@ -119,28 +145,47 @@ CustomClipRect {
             Item {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                height: mi.big ? trackName.contentHeight + Appearance.spacing.l + trackArtist.contentHeight : trackName.contentHeight
+                height: trackName.contentHeight + offset
+                property real offset: big ? trackArtist.contentHeight : 0
 
                 CustomText {
                     id: trackArtist
                     text: Players.active?.trackArtist ?? "Nothing to play..."
                     anchors.bottom: parent.bottom
+                    font.pointSize: 11
+                    font.bold: true
                     visible: opacity > 0
                     opacity: mi.big ? 1 : 0
                     Behavior on opacity {
                         Animations.CaelestialNumber {}
                     }
+                    font.family: "Maple Mono CN"
+                }
+
+                CustomText {
+                    id: trackWidth
+                    text: Players.active?.trackTitle ?? "牛鼎烹鸡"
+                    font.bold: mi.big
+                    font.pointSize: mi.big ? 13 : 10
+                    font.family: "Maple Mono CN"
+                    visible: false
                 }
 
                 CustomText {
                     id: trackName
                     text: Players.active?.trackTitle ?? "牛鼎烹鸡"
                     color: Colors.on_background
+                    font.bold: mi.big
+                    font.pointSize: mi.big ? 13 : 10
+                    font.family: "Maple Mono CN"
+                    Behavior on font.pointSize {
+                        Animations.CaelestialNumber {}
+                    }
 
                     anchors.top: parent.top
                 }
 
-                Behavior on height {
+                Behavior on offset {
                     Animations.CaelestialNumber {}
                 }
             }
