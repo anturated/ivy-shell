@@ -11,17 +11,17 @@ import qs.ui.widgets
 ToastWrapper {
     id: root
 
-    Timer {
-        id: switchTimer
-        interval: 500
-        repeat: false
-        running: false
-
-        onTriggered: {
-            bg.state = ToastWrapper.Full;
-            root.forceOpen = true;
-        }
-    }
+    // Timer {
+    //     id: switchTimer
+    //     interval: 500
+    //     repeat: false
+    //     running: false
+    //
+    //     onTriggered: {
+    //         bg.state = ToastWrapper.Full;
+    //         root.forceOpen = true;
+    //     }
+    // }
 
     Timer {
         id: collapseTimer
@@ -38,10 +38,10 @@ ToastWrapper {
         target: root.hoverHandler
         function onHoveredChanged() {
             if (root.hoverHandler.hovered) {
-                switchTimer.restart();
                 collapseTimer.stop();
+                bg.state = ToastWrapper.Full;
+                root.forceOpen = true;
             } else {
-                switchTimer.stop();
                 collapseTimer.restart();
                 bg.state = ToastWrapper.Peek;
             }
