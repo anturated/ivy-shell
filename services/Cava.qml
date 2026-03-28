@@ -21,6 +21,8 @@ Singleton {
         Quickshell.execDetached(["sh", "-c", `printf '
 [general]
 framerate=${root.framerate}
+autosens = 1
+overshoot = 20
 bars=${root.quantity}
 sleep_timer=3
 [output]
