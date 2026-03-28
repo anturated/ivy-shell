@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Effects
 
 import qs.config
 import qs.services
@@ -105,6 +106,11 @@ ToastWrapper {
                 }
             }
         ]
+
+        layer.enabled: true
+        layer.effect: MultiEffect {
+            shadowEnabled: bg.state == ToastWrapper.Full
+        }
 
         Behavior on height {
             Animations.CaelestialNumber {}
