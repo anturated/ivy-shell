@@ -5,11 +5,12 @@ import Quickshell
 import Quickshell.Io
 
 import qs.util
+import qs.services
 
 Singleton {
     id: root
 
-    property bool active: true
+    property bool active: !Gamemode.active
     readonly property int quantity: 50
     readonly property int framerate: 60
 
