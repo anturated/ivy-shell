@@ -6,16 +6,20 @@ import Quickshell.Services.Notifications
 Singleton {
     id: rood
 
+    property alias server: serv
+
     NotificationServer {
-        bodyHyperlinksSupported: true
-        imageSupported: true
-        bodyImagesSupported: true
-        actionsSupported: true
-        actionIconsSupported: true
+        id: serv
+
         bodySupported: true
         bodyMarkupSupported: true
+        bodyHyperlinksSupported: true
+        bodyImagesSupported: true
+        imageSupported: true
+        actionsSupported: true
+        actionIconsSupported: true
         persistenceSupported: true
-        inlineReplySupported: true
+
         onNotification: notif => {
             notif.tracked = true;
         }
