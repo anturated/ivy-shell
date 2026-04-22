@@ -9,6 +9,11 @@ Item {
     id: root
 
     required property ShellScreen screen
+    readonly property bool anyExpanded: dashboard.expanded
+
+    function collapseAll() {
+        dashboard.expanded = false;
+    }
 
     Workspaces.Toast {
         collapseTo: ToastWrapper.Left
@@ -19,6 +24,8 @@ Item {
     }
 
     Dashboard.Toast {
+        id: dashboard
+
         collapseTo: ToastWrapper.Top
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top

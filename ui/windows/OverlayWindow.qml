@@ -23,7 +23,10 @@ Variants {
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
 
             // make only what we need clickable
-            mask: Region {
+            mask: toasts.anyExpanded ? null : mouseMask
+
+            Region {
+                id: mouseMask
                 x: 0
                 y: 0
                 width: win.width
@@ -51,6 +54,19 @@ Variants {
                     height: modelData.height
 
                     intersection: Intersection.Subtract
+                }
+            }
+
+            TapHandler {
+                enabled: toasts.anyExpanded
+                onTapped: {
+                    const p = point.position;
+                    const outside = toasts.children.every(toast => {
+                        const r = toast.mapToItem(win.contentItem, 0, 0, toast.width, toast.height);
+                        return p.x < r.x || p.x > r.x + r.width || p.y < r.y || p.y > r.y + r.height;
+                    });
+                    if (outside)
+                        toasts.collapseAll();
                 }
             }
 

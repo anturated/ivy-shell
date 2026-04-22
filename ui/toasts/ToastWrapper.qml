@@ -8,6 +8,16 @@ import qs.services
 Item {
     id: root
 
+    required property int collapseTo
+    required property ShellScreen screen
+
+    property bool forceOpen: false
+    property bool flushEdge: false
+
+    property alias tapHandler: th
+    property alias hoverHandler: hh
+    default property alias content: contentItem.data
+
     enum Collapse {
         Top = 10,
         Bottom = 11,
@@ -20,113 +30,73 @@ Item {
         Full = 2
     }
 
-    required property int collapseTo
-    required property ShellScreen screen
-
-    property bool forceOpen: false
     readonly property bool overshadowed: {
-        // FIXME: optimize this, theres no need to do this like 8 times
-        let ws = Hypr.workspacesForScreen(screen).find(w => w.active);
-        let windows = Hypr.windowsForWorkspace(ws).map(w => w.lastIpcObject);
-        let pos = root.mapToItem(null, 0, 0);
+        const ws = Hypr.workspacesForScreen(screen).find(w => w.active);
+        const windows = Hypr.windowsForWorkspace(ws).map(w => w.lastIpcObject);
 
-        // calculate stable position
-        let dx = 0;
-        let dy = 0;
+        const sw = screen.width, sh = screen.height;
+        const sx = screen.x, sy = screen.y;
+        const cw = root.width, ch = root.height;
 
-        if (root.collapseTo === ToastWrapper.Left)
-            dx = -root.anchors.leftMargin;
+        let rx, ry;
+        if (collapseTo === ToastWrapper.Top) {
+            rx = sx + (sw - cw) / 2;
+            ry = sy;
+        } else if (collapseTo === ToastWrapper.Bottom) {
+            rx = sx + (sw - cw) / 2;
+            ry = sy + sh - ch;
+        } else if (collapseTo === ToastWrapper.Left) {
+            rx = sx;
+            ry = sy + (sh - ch) / 2;
+        } else {
+            rx = sx + sw - cw;
+            ry = sy + (sh - ch) / 2;
+        }
 
-        if (root.collapseTo === ToastWrapper.Right)
-            dx = root.anchors.rightMargin;
-
-        if (root.collapseTo === ToastWrapper.Top)
-            dy = -root.anchors.topMargin;
-
-        if (root.collapseTo === ToastWrapper.Bottom)
-            dy = root.anchors.bottomMargin;
-
-        let stableX = pos.x + dx;
-        let stableY = pos.y + dy;
-
-        // see if it intersects with windows
-        let intersects = windows.some(w => {
+        return windows.some(w => {
             if (!w.at)
                 return false;
-
-            let l1 = w.at[0];
-            let r1 = w.at[0] + w.size[0];
-            let t1 = w.at[1];
-            let b1 = w.at[1] + w.size[1];
-
-            let l2 = stableX + root.screen.x;
-            let r2 = stableX + root.screen.x + root.width;
-            let t2 = stableY + root.screen.y;
-            let b2 = stableY + root.screen.y + contentItem.height + Appearance.toast.margin * 2;
-
-            if (l1 > r2 || l2 > r1)
-                return false;
-
-            if (b1 < t2 || b2 < t1)
-                return false;
-
-            return true;
+            const [wl, wt] = w.at;
+            const [ww, wh] = w.size;
+            // AABB intersection
+            return rx < wl + ww && rx + cw > wl && ry < wt + wh && ry + ch > wt;
         });
-
-        return intersects;
     }
 
-    property alias tapHandler: th
-    property alias hoverHandler: hh
-    default property alias content: contentItem.data
+    // ── visibility state ──────────────────────────────────────────────────────
+    function _updateVisibility() {
+        if (forceOpen || hh.hovered)
+            root.state = "peek";
+        else if (overshadowed)
+            root.state = "hidden";
+        else
+            root.state = "peek";
+    }
 
+    onForceOpenChanged: _updateVisibility()
+    onOvershadowedChanged: _updateVisibility()
+
+    Component.onCompleted: _updateVisibility()
+
+    // ── sizing ────────────────────────────────────────────────────────────────
     implicitWidth: contentItem.width + Appearance.toast.margin * 2
     implicitHeight: contentItem.height + Appearance.toast.margin * 2
-    state: ToastWrapper.Hidden
 
-    onForceOpenChanged: {
-        if (forceOpen)
-            state = ToastWrapper.Peek;
-        else if (!hoverHandler.hovered && overshadowed)
-            state = ToastWrapper.Hidden;
-    }
-
-    onOvershadowedChanged: {
-        if (overshadowed && !hoverHandler.hovered && !forceOpen)
-            root.state = ToastWrapper.Hidden;
-        else if (!overshadowed)
-            root.state = ToastWrapper.Peek;
-    }
-
-    Component.onCompleted: {
-        root.state = root.overshadowed ? ToastWrapper.Hidden : ToastWrapper.Peek;
-    }
-
-    // CustomRect {
-    //     id: visual
-    //     color: Colors.primary
-    //     anchors.fill: parent
-    // }
-
-    QtObject {
-        id: internal
-
-        readonly property int hOffset: contentItem.width + Appearance.toast.margin
-        readonly property int vOffset: contentItem.height + Appearance.toast.margin
-    }
+    // ── states & animation ────────────────────────────────────────────────────
+    state: "hidden"
 
     states: [
         State {
-            name: ToastWrapper.Hidden
+            name: "hidden"
             PropertyChanges {
-                root.anchors.leftMargin: root.collapseTo == ToastWrapper.Left ? -internal.hOffset : 0
-                root.anchors.rightMargin: root.collapseTo == ToastWrapper.Right ? internal.hOffset : 0
-                root.anchors.topMargin: root.collapseTo == ToastWrapper.Top ? -internal.vOffset : 0
-                root.anchors.bottomMargin: root.collapseTo == ToastWrapper.Bottom ? internal.vOffset : 0
+                root.anchors.leftMargin: collapseTo === ToastWrapper.Left ? -(contentItem.width + Appearance.toast.margin) : 0
+                root.anchors.rightMargin: collapseTo === ToastWrapper.Right ? (contentItem.width + Appearance.toast.margin) : 0
+                root.anchors.topMargin: collapseTo === ToastWrapper.Top ? -(contentItem.height + Appearance.toast.margin) : 0
+                root.anchors.bottomMargin: collapseTo === ToastWrapper.Bottom ? (contentItem.height + Appearance.toast.margin) : 0
             }
         },
         State {
-            name: ToastWrapper.Peek
+            name: "peek"
             PropertyChanges {
                 root.anchors.leftMargin: 0
                 root.anchors.rightMargin: 0
@@ -135,21 +105,6 @@ Item {
             }
         }
     ]
-
-    HoverHandler {
-        id: hh
-        // TODO: put this and onOvershadowed under one function and call
-        onHoveredChanged: {
-            if (hovered)
-                root.state = ToastWrapper.Peek;
-            else if (!root.forceOpen && root.overshadowed)
-                root.state = ToastWrapper.Hidden;
-        }
-    }
-
-    TapHandler {
-        id: th
-    }
 
     Behavior on anchors.leftMargin {
         Animations.CaelestialNumber {}
@@ -164,11 +119,31 @@ Item {
         Animations.CaelestialNumber {}
     }
 
-    // this is for children ( children go here )
+    // ── handlers ──────────────────────────────────────────────────────────────
+    HoverHandler {
+        id: hh
+        onHoveredChanged: _updateVisibility()
+    }
+
+    TapHandler {
+        id: th
+    }
+
+    // ── content ───────────────────────────────────────────────────────────────
     Item {
         id: contentItem
 
-        anchors.centerIn: parent
+        anchors.centerIn: !root.flushEdge ? parent : undefined
+        anchors.top: (collapseTo === ToastWrapper.Top && root.flushEdge) ? parent.top : undefined
+        anchors.bottom: (collapseTo === ToastWrapper.Bottom && root.flushEdge) ? parent.bottom : undefined
+        anchors.left: (collapseTo === ToastWrapper.Left && root.flushEdge) ? parent.left : undefined
+        anchors.right: (collapseTo === ToastWrapper.Right && root.flushEdge) ? parent.right : undefined
+
+        anchors.topMargin: 0
+        anchors.bottomMargin: 0
+        anchors.leftMargin: 0
+        anchors.rightMargin: 0
+
         width: childrenRect.width
         height: childrenRect.height
     }
