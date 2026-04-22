@@ -15,6 +15,7 @@ Row {
     property bool flipH: false
     property string color: Colors.primary
     spacing: 3
+    visible: Cava.active
 
     readonly property list<int> steps: {
         const result = new Array(root.bars);

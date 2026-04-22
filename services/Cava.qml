@@ -10,7 +10,7 @@ import qs.services
 Singleton {
     id: root
 
-    property bool active: !Gamemode.active
+    property bool active: !Gamemode.active && Power.ac
     readonly property int quantity: 50
     readonly property int framerate: 60
 
