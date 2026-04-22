@@ -11,9 +11,9 @@ CustomText {
 
     property string cls: modelData.class ?? ""
     property string title: modelData.title ?? ""
-    property int size: 17
+    property int size: 13
 
-    font.family: "MesloLGL Nerd Font Mono"
+    font.family: "Symbols Nerd Font"
     font.pointSize: size
 
     horizontalAlignment: Text.AlignHCenter
@@ -53,6 +53,8 @@ CustomText {
             return "";
         else if (cls.includes("steam_app_"))
             return "󰊗";
+        else if (cls == "org.pulseaudio.pavucontrol")
+            return "󱀞";
         else
             return "";
     }
