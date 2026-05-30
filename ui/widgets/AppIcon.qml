@@ -55,6 +55,8 @@ CustomText {
             return "󰊗";
         else if (cls == "org.pulseaudio.pavucontrol")
             return "󱀞";
+        else if (cls == "mpv")
+            return "";
         else
             return "";
     }
