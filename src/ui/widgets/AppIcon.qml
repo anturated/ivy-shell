@@ -11,10 +11,14 @@ CustomText {
 
     property string cls: modelData.class ?? ""
     property string title: modelData.title ?? ""
-    property int size: 16
 
     font.family: Fonts.nerd
-    font.pixelSize: size
+    font.pixelSize: 19
+
+    font.variableAxes: ({
+            opsz: fontInfo.pixelSize,
+            wght: fontInfo.weight
+        })
 
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter

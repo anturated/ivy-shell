@@ -16,7 +16,7 @@ Item {
 
     Layout.preferredHeight: childrenRect.height
     Layout.preferredWidth: childrenRect.width
-    Layout.alignment: Qt.AlignCenter
+    Layout.alignment: Qt.AlignHCenter
 
     function checkActive() {
         if (indicator.modelData.active)
@@ -42,15 +42,19 @@ Item {
 
     ColumnLayout {
         id: layout
+
         spacing: 7
+        width: Appearance.toast.thickness
+
         CustomText {
             id: wsName
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            Layout.alignment: Qt.AlignCenter
+            Layout.alignment: Qt.AlignHCenter
 
-            color: modelData.active ? Colors.on_primary : Colors.on_background
+            color: modelData.active ? Colors.on_primary : Colors.secondary
             font.pixelSize: 15
+            font.weight: Font.Medium
             text: {
                 if (modelData.name.includes("special:"))
                     return "死";
@@ -76,7 +80,7 @@ Item {
             model: indicator.modelData ? Hypr.windowsForWorkspace(indicator.modelData).map(w => w.lastIpcObject) : []
 
             AppIcon {
-                Layout.alignment: Qt.AlignCenter
+                Layout.alignment: Qt.AlignHCenter
                 color: indicator.modelData.active ? Colors.on_primary : Colors.on_background
                 skipAnimation: true
                 Behavior on color {

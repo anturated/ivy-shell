@@ -11,13 +11,7 @@ CustomText {
     color: Colors.secondary
     font.family: Fonts.icons
     font.pixelSize: 24
-    font.variableAxes: ({
-            // TODO: copy this to appicons?
-            FILL: fill.toFixed(1),
-            GRAD: grade
-            // opsz: fontInfo.pixelSize,
-            // wght: fontInfo.weight
-        })
+
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
 }

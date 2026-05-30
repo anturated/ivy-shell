@@ -34,7 +34,8 @@ ToastWrapper {
         id: container
 
         width: Appearance.toast.thickness
-        height: layout.height + radius
+        height: layout.height + slider.marginsV * 4
+
         color: Colors.background
         radius: width / 2
 
@@ -42,14 +43,15 @@ ToastWrapper {
             id: slider
 
             property Item target
-            readonly property int margins: Appearance.spacing.m
+            readonly property real marginsH: 3
+            readonly property real marginsV: 5
 
             color: Colors.primary
             anchors.horizontalCenter: parent.horizontalCenter
 
-            y: (target?.y + layout.y - margins) ?? 0
-            height: (target?.height + margins * 2) ?? 0
-            width: (target?.width + margins * 2) ?? 0
+            y: (target?.y + layout.y - marginsV) ?? 0
+            height: (target?.height + marginsV * 2) ?? 0
+            width: target ? Appearance.toast.thickness - marginsH * 2 : 0
             radius: width / 2
 
             Behavior on y {
@@ -83,8 +85,11 @@ ToastWrapper {
         ColumnLayout {
             id: layout
 
-            width: Appearance.toast.thickness
             anchors.centerIn: parent
+            width: Appearance.toast.thickness
+
+            spacing: 7
+
             layer.enabled: true
             layer.smooth: true
 
