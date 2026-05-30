@@ -8,7 +8,7 @@ CustomText {
     property real fill
     property int grade: -25
 
-    color: Colors.current.secondary
+    color: Colors.secondary
     font.family: Fonts.icons
     font.pixelSize: 24
     font.variableAxes: ({
