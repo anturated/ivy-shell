@@ -10,6 +10,7 @@ import qs.config
 import qs.services
 import qs.ui.custom
 import qs.ui.toasts
+import qs.ui.widgets
 
 ToastWrapper {
     id: root
@@ -44,7 +45,7 @@ ToastWrapper {
 
     readonly property int dashW: Appearance.dashboard.width
     readonly property int dashH: Appearance.dashboard.height
-    readonly property int peekW: clockText.contentWidth + 30
+    readonly property int peekW: clockText.width + 30
     readonly property int peekH: Appearance.toast.thickness
     readonly property int r: Appearance.toast.rounding
 
@@ -101,31 +102,48 @@ ToastWrapper {
                 Animations.CaelestialNumber {}
             }
 
-            CustomText {
+            RowLayout {
                 id: clockText
 
-                readonly property var workspace: Hypr.workspacesForScreen(root.screen).find(w => w.active)
-                readonly property var windows: Hypr.windowsForWorkspace(workspace)
+                readonly property bool showWeather: !root.overshadowed && !notifTimer.running
 
-                text: {
-                    if (notifTimer.running)
-                        return lastNotif.summary;
+                spacing: Appearance.spacing.l
+                height: Appearance.toast.thickness
+                anchors.centerIn: parent
 
-                    if (windows.length == 0) {
-                        Weather.reload();
-                        return `${Weather.temp}, ${Weather.description}`;
-                    }
+                MaterialIcon {
+                    Layout.alignment: Qt.AlignVCenter
 
-                    return Time.format("ddd, dd MMM hh:mm");
+                    text: Weather.icon
+                    color: Colors.on_background
+
+                    font.pixelSize: 20
+                    visible: clockText.showWeather
                 }
 
-                color: Colors.on_background
+                CustomText {
+                    id: actualText
 
-                anchors.top: parent.top
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: (Appearance.toast.thickness - contentHeight) / 2
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
+                    Layout.alignment: Qt.AlignVCenter
+
+                    text: {
+                        if (notifTimer.running)
+                            return lastNotif.summary;
+
+                        if (clockText.showWeather) {
+                            Weather.reload();
+                            return `${Weather.temp}, ${Weather.description}`;
+                        }
+
+                        return Time.format("ddd, dd MMM hh:mm");
+                    }
+
+                    color: Colors.on_background
+
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                }
+
                 opacity: root.expanded ? 0 : 1
                 visible: opacity > 0
                 Behavior on opacity {
