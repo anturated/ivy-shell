@@ -20,13 +20,13 @@ ColumnLayout {
         // time
         ClockText {
             text: Time.format("hh:mm")
-            font.pointSize: 50
+            font.pixelSize: 67
             Layout.alignment: Qt.AlignCenter
         }
         // date
         ClockText {
             text: Time.format("dddd, dd MMMM")
-            font.pointSize: 12
+            font.pixelSize: 16
             font.italic: true
 
             Layout.alignment: Qt.AlignCenter
@@ -36,6 +36,6 @@ ColumnLayout {
     component ClockText: CustomText {
         color: Colors.on_background
         font.bold: true
-        font.family: "Maple Mono CN"
+        font.family: Fonts.maple
     }
 }

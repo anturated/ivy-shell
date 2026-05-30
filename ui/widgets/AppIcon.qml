@@ -11,10 +11,10 @@ CustomText {
 
     property string cls: modelData.class ?? ""
     property string title: modelData.title ?? ""
-    property int size: 13
+    property int size: 16
 
-    font.family: "Symbols Nerd Font"
-    font.pointSize: size
+    font.family: Fonts.nerd
+    font.pixelSize: size
 
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
@@ -61,5 +61,3 @@ CustomText {
             return "";
     }
 }
-
-// "MesloLGL Nerd Font"

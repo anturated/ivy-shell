@@ -235,8 +235,8 @@ ToastWrapper {
                     CustomText {
                         text: Power.charge + "%"
                         color: Colors.on_background
-                        font.family: "Maple Mono CN"
-                        font.pointSize: 30
+                        font.family: Fonts.maple
+                        font.pixelSize: 30
                     }
                 }
             }

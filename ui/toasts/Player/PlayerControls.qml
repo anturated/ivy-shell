@@ -50,7 +50,7 @@ ColumnLayout {
             color: available ? Colors.on_background : Colors.outline
             Icon {
                 text: (Players.active?.isPlaying ?? false) ? "pause" : "play_arrow"
-                font.pointSize: Players.active?.isPlaying ? 17 : 23
+                font.pixelSize: Players.active?.isPlaying ? 23 : 28
                 color: Colors.background
                 anchors.centerIn: parent
             }
@@ -136,13 +136,13 @@ ColumnLayout {
         property bool active: false
         color: available ? active ? Colors.primary : Colors.on_background : Colors.outline
         Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-        font.pointSize: 15
+        font.pixelSize: 21
     }
 
     component LenText: CustomText {
         color: Colors.on_background
-        font.pointSize: 9
-        font.family: "Maple Mono CN"
+        font.pixelSize: 13
+        font.family: Fonts.maple
         font.bold: true
     }
 }

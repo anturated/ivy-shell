@@ -139,6 +139,10 @@ CustomRect {
             Behavior on Layout.preferredHeight {
                 Animations.CaelestialNumber {}
             }
+            Layout.leftMargin: mi.hasCover ? 0 : (mi.big ? Appearance.spacing.xl : Appearance.spacing.m / 2)
+            Behavior on Layout.leftMargin {
+                Animations.CaelestialNumber {}
+            }
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 
@@ -152,22 +156,22 @@ CustomRect {
                     id: trackArtist
                     text: Players.active?.trackArtist ?? "Nothing to play..."
                     anchors.bottom: parent.bottom
-                    font.pointSize: 11
+                    font.pixelSize: 15
                     font.bold: true
                     visible: opacity > 0
                     opacity: mi.big ? 1 : 0
                     Behavior on opacity {
                         Animations.CaelestialNumber {}
                     }
-                    font.family: "Maple Mono CN"
+                    font.family: Fonts.maple
                 }
 
                 CustomText {
                     id: trackWidth
                     text: Players.active?.trackTitle ?? "牛鼎烹鸡"
                     font.bold: mi.big
-                    font.pointSize: mi.big ? 13 : 10
-                    font.family: "Maple Mono CN"
+                    font.pixelSize: mi.big ? 17 : 13
+                    font.family: Fonts.maple
                     visible: false
                 }
 
@@ -176,9 +180,9 @@ CustomRect {
                     text: Players.active?.trackTitle ?? "牛鼎烹鸡"
                     color: Colors.on_background
                     font.bold: mi.big
-                    font.pointSize: mi.big ? 13 : 10
-                    font.family: "Maple Mono CN"
-                    Behavior on font.pointSize {
+                    font.pixelSize: mi.big ? 17 : 13
+                    font.family: Fonts.maple
+                    Behavior on font.pixelSize {
                         Animations.CaelestialNumber {}
                     }
 

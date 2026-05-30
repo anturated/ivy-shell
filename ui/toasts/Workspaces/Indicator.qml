@@ -42,7 +42,7 @@ Item {
 
     ColumnLayout {
         id: layout
-        spacing: -3
+        spacing: 7
         CustomText {
             id: wsName
             horizontalAlignment: Text.AlignHCenter
@@ -50,7 +50,7 @@ Item {
             Layout.alignment: Qt.AlignCenter
 
             color: modelData.active ? Colors.on_primary : Colors.on_background
-            font.pointSize: 12
+            font.pixelSize: 15
             text: {
                 if (modelData.name.includes("special:"))
                     return "死";
