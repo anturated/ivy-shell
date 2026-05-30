@@ -42,6 +42,7 @@
           default = pkgs.mkShellNoCC {
             packages = [
               qtEnv
+              pkgs.quickshell
             ];
           };
         }
