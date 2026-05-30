@@ -103,8 +103,24 @@ ToastWrapper {
 
             CustomText {
                 id: clockText
-                text: notifTimer.running ? lastNotif.summary : Time.format("ddd, dd MMM hh:mm")
+
+                readonly property var workspace: Hypr.workspacesForScreen(root.screen).find(w => w.active)
+                readonly property var windows: Hypr.windowsForWorkspace(workspace)
+
+                text: {
+                    if (notifTimer.running)
+                        return lastNotif.summary;
+
+                    if (windows.length == 0) {
+                        Weather.reload();
+                        return `${Weather.temp}, ${Weather.description}`;
+                    }
+
+                    return Time.format("ddd, dd MMM hh:mm");
+                }
+
                 color: Colors.on_background
+
                 anchors.top: parent.top
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: (Appearance.toast.thickness - contentHeight) / 2
