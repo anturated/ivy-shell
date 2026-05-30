@@ -4,6 +4,7 @@ import QtQuick
 import "Workspaces" as Workspaces
 import "Dashboard" as Dashboard
 import "Player" as Player
+import "Tray" as Tray
 
 Item {
     id: root
@@ -36,6 +37,14 @@ Item {
     Player.Toast {
         collapseTo: ToastWrapper.Top
         anchors.left: parent.left
+        anchors.top: parent.top
+
+        screen: root.screen
+    }
+
+    Tray.Toast {
+        collapseTo: ToastWrapper.Top
+        anchors.right: parent.right
         anchors.top: parent.top
 
         screen: root.screen
