@@ -1,3 +1,8 @@
 ACTION=${1-'-d'}
 
-exec qs -p "$SRC" "$ACTION"
+# attach mode for systemd
+if [ "$ACTION" == "-a" ]; then
+  exec qs -p "$SRC"
+else
+  exec qs -p "$SRC" "$ACTION"
+fi
