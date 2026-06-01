@@ -12,7 +12,7 @@ import qs.ui.widgets
 ToastWrapper {
     id: root
 
-    forceOpen: Power.charge <= 10
+    forceOpen: Power.charge <= 10 && !Power.ac
 
     CustomClipRect {
         id: bg
