@@ -1,4 +1,3 @@
-inputs:
 {
   lib,
   pkgs,
@@ -7,9 +6,8 @@ inputs:
 }:
 
 let
+  package = pkgs.callPackage ./package.nix { };
   cfg = config.programs.eiddew;
-
-  pkgs' = import ../default.nix { inherit pkgs; };
 in
 {
   options = {
@@ -19,28 +17,11 @@ in
       autoStart = lib.mkEnableOption "Automatically start eiddew on login" // {
         default = true;
       };
-
-      package = lib.mkPackageOption pkgs' "eiddew" { };
-
-      packageOverrides = lib.mkOption {
-        type = lib.types.lazyAttrsOf lib.types.anything;
-        default = { };
-        description = "Arguments to add to the package override";
-        example = lib.literalExpression ''
-          {
-            nil = pkgs.nil.override { nix = pkgs.lix; };
-          }
-        '';
-      };
     };
   };
 
   config = lib.mkIf cfg.enable {
-    programs.eiddew = {
-      package = pkgs'.eiddew.override (cfg.packageOverrides);
-    };
-
-    home.packages = [ cfg.package ];
+    home.packages = [ package ];
 
     systemd.user.services.eiddew = lib.mkIf cfg.autoStart {
       Unit = {
@@ -55,7 +36,7 @@ in
 
       Service = {
         Type = "simple";
-        ExecStart = "${cfg.package}/bin/eiddew -a";
+        ExecStart = "${package}/bin/eiddew -a";
         Restart = "on-failure";
       };
     };

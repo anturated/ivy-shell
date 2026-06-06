@@ -4,29 +4,20 @@
   };
 
   outputs =
-    inputs@{ self, nixpkgs }:
+    { self, nixpkgs }:
     let
       inherit (nixpkgs) lib;
 
       forAllSystems =
         f: lib.genAttrs lib.systems.flakeExposed (system: f (import nixpkgs { inherit system; }));
-
-      # do this bs so we have nix run .
-      mkPackages =
-        default: pkgs:
-        let
-          generatedPackages = import ./default.nix { inherit pkgs; };
-          defaultPackage = lib.optionalAttrs default { default = generatedPackages.eiddew; };
-        in
-        generatedPackages // defaultPackage;
     in
     {
-      legacyPackages = forAllSystems (mkPackages true);
-      packages = forAllSystems (mkPackages true);
+      packages = forAllSystems (pkgs: {
+        default = self.packages.${pkgs.stdenv.hostPlatform.system}.eiddew;
+        eiddew = pkgs.callPackage ./nix/package.nix { };
+      });
 
-      homeModules.default = import ./nix/module.nix inputs;
-
-      overlays.default = _: mkPackages false;
+      homeModules.default = import ./nix/module.nix;
 
       devShells = forAllSystems (
         pkgs:
