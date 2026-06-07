@@ -29,4 +29,6 @@ stdenvNoCC.mkDerivation {
 
     runHook postInstall
   '';
+
+  meta.mainProgram = "eiddew";
 }
