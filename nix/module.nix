@@ -36,7 +36,7 @@ in
 
       Service = {
         Type = "simple";
-        ExecStart = "${package}/bin/eiddew -a";
+        ExecStart = lib.getExe package;
         Restart = "on-failure";
       };
     };

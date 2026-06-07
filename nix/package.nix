@@ -1,16 +1,32 @@
-{ writeShellApplication, quickshell }:
+{
+  lib,
+  quickshell,
+  maple-mono,
+  stdenvNoCC,
+  makeWrapper,
+}:
 
-writeShellApplication {
+stdenvNoCC.mkDerivation {
   name = "eiddew";
+
+  nativeBuildInputs = [ makeWrapper ];
 
   runtimeInputs = [
     quickshell
+    maple-mono.truetype
   ];
 
-  text = ''
-    #!/usr/bin/env bash
-    set -euo pipefail
-    SRC=${../src}
-  ''
-  + builtins.readFile ./script.sh;
+  src = ../src;
+
+  installPhase = ''
+    runHook preInstall
+
+    mkdir -p "$out/lib"
+    cp -r . "$out/lib/src"
+
+    makeWrapper ${lib.getExe quickshell} "$out/bin/eiddew" \
+      --add-flags "-p $out/lib/src"
+
+    runHook postInstall
+  '';
 }
