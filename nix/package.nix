@@ -1,6 +1,7 @@
 {
   lib,
   quickshell,
+  cava,
   maple-mono,
   stdenvNoCC,
   makeWrapper,
@@ -13,6 +14,7 @@ stdenvNoCC.mkDerivation {
 
   runtimeInputs = [
     quickshell
+    cava
     maple-mono.truetype
   ];
 
