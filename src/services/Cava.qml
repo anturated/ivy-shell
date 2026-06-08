@@ -19,7 +19,7 @@ Singleton {
     readonly property string configPath: Paths.cache + "/cava_conf.toml"
 
     Component.onCompleted: {
-        Quickshell.execDetached(["sh", "-c", `printf '
+        Quickshell.execDetached(["sh", "-c", `mkdir -p ${Paths.cache}; printf '
 [general]
 framerate=${root.framerate}
 autosens = 1
