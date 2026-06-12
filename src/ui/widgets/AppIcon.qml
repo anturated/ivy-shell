@@ -61,6 +61,8 @@ CustomText {
             return "󱀞";
         else if (cls == "mpv")
             return "";
+        else if (cls == "anytype")
+            return "";
         else
             return "";
     }
