@@ -12,7 +12,9 @@ import qs.ui.widgets
 ToastWrapper {
     id: root
 
-    tapHandler.acceptedButtons: Qt.LeftButton | Qt.MiddleButton
+    // if you right click without allowing quickshell crashes
+    // does not affect functionality in any way so it stays for now
+    tapHandler.acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
 
     // Timer {
     //     id: switchTimer
