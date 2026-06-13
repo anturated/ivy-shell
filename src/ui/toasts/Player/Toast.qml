@@ -12,6 +12,8 @@ import qs.ui.widgets
 ToastWrapper {
     id: root
 
+    tapHandler.acceptedButtons: Qt.LeftButton | Qt.MiddleButton
+
     // Timer {
     //     id: switchTimer
     //     interval: 500
@@ -46,6 +48,15 @@ ToastWrapper {
                 collapseTimer.restart();
                 bg.state = ToastWrapper.Peek;
             }
+        }
+    }
+
+    Connections {
+        target: root.tapHandler
+        function onTapped(event, button) {
+            const canPlay = (Players.active?.canTogglePlaying ?? false);
+            if (button == Qt.MiddleButton && canPlay)
+                Players.active.togglePlaying();
         }
     }
 
