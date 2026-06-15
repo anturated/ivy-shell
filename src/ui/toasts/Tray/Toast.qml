@@ -55,12 +55,16 @@ ToastWrapper {
             }
 
             BaseIcon {
+                id: bat
+                readonly property bool low: Power.charge < 15
+                property bool blink: false
+
                 text: Power.iconText
                 color: {
                     if (Power.ac)
                         return Colors.primary;
-                    if (Power.charge < 15)
-                        return Colors.error;
+                    if (bat.low)
+                        return bat.blink ? Colors.background : Colors.error;
                     return Colors.secondary;
                 }
 
@@ -73,6 +77,15 @@ ToastWrapper {
                     anchors.left: parent.left
                     anchors.leftMargin: 3.7
                     font.pixelSize: 10
+                }
+
+                Timer {
+                    running: bat.low
+                    interval: 500
+                    repeat: true
+                    onTriggered: {
+                        bat.blink = !bat.blink;
+                    }
                 }
             }
         }
