@@ -19,24 +19,8 @@
 
       homeModules.default = import ./nix/module.nix;
 
-      devShells = forAllSystems (
-        pkgs:
-        let
-          qtEnv =
-            with pkgs.qt6;
-            env "qt-eiddew-${qtbase.version}" [
-              qtdeclarative
-              qtmultimedia
-            ];
-        in
-        {
-          default = pkgs.mkShellNoCC {
-            packages = [
-              qtEnv
-              pkgs.quickshell
-            ];
-          };
-        }
-      );
+      devShells = forAllSystems (pkgs: {
+        default = pkgs.callPackage ./nix/shell.nix { };
+      });
     };
 }
