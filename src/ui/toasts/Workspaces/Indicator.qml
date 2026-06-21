@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Hyprland
@@ -77,15 +78,14 @@ Item {
         }
 
         Repeater {
-            model: indicator.modelData ? Hypr.windowsForWorkspace(indicator.modelData).map(w => w.lastIpcObject) : []
+            model: ScriptModel {
+                // don't map to last ipc object here, that messes with identity and re-creates icons
+                values: Hypr.windowsForWorkspace(indicator.modelData).filter(w => Boolean(w.lastIpcObject))
+            }
 
             AppIcon {
                 Layout.alignment: Qt.AlignHCenter
                 color: indicator.modelData.active ? Colors.on_primary : Colors.on_background
-                skipAnimation: true
-                Behavior on color {
-                    Animations.CaelestialColor {}
-                }
             }
         }
     }

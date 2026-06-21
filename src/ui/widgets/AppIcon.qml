@@ -7,10 +7,11 @@ import qs.ui.custom
 // uses mono font because non-mono have weird alignment
 CustomText {
     id: root
-    required property var modelData
+    required property HyprlandToplevel modelData
+    readonly property var lastIpcObject: modelData.lastIpcObject // LIO's type is a json object so idk
 
-    property string cls: modelData.class ?? ""
-    property string title: modelData.title ?? ""
+    property string cls: lastIpcObject.class ?? ""
+    property string title: lastIpcObject.title ?? ""
 
     font.family: Fonts.nerd
     font.pixelSize: 19
