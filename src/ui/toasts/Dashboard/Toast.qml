@@ -173,7 +173,7 @@ ToastWrapper {
             }
         }
 
-        layer.enabled: true
+        layer.enabled: false
         layer.effect: MultiEffect {
             shadowEnabled: root.expanded
         }
