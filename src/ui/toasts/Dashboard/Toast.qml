@@ -163,9 +163,9 @@ ToastWrapper {
 
             Loader {
                 anchors.fill: parent
-                active: root.expanded
                 opacity: root.expanded ? 1 : 0
                 visible: opacity > 0
+                active: visible
                 sourceComponent: DashboardView {}
                 Behavior on opacity {
                     Animations.CaelestialNumber {}
@@ -183,10 +183,10 @@ ToastWrapper {
         id: wing
 
         required property string side
+
         readonly property int size: root.r * 2.5
         width: size
         height: size
-
         rotation: side === "right" ? 270 : 0
 
         ShapePath {
