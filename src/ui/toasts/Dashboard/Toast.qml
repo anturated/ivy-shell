@@ -16,7 +16,7 @@ ToastWrapper {
     id: root
 
     property bool expanded: false
-    forceOpen: expanded || notifTimer.running
+    forceOpen: expanded || notifTimer.running || collapseTimer.running
     flushEdge: expanded
 
     Connections {
@@ -30,6 +30,20 @@ ToastWrapper {
         id: notifTimer
         interval: 2000
         repeat: false
+    }
+
+    Timer {
+        id: collapseTimer
+        interval: Animations.durations.normal
+        repeat: false
+        running: false
+    }
+
+    onExpandedChanged: {
+        if (!root.expanded)
+            collapseTimer.restart();
+        else
+            collapseTimer.stop();
     }
 
     Connections {
