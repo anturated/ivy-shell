@@ -133,16 +133,25 @@ Item {
     Item {
         id: contentItem
 
-        anchors.centerIn: !root.flushEdge ? parent : undefined
-        anchors.top: (collapseTo === ToastWrapper.Top && root.flushEdge) ? parent.top : undefined
-        anchors.bottom: (collapseTo === ToastWrapper.Bottom && root.flushEdge) ? parent.bottom : undefined
-        anchors.left: (collapseTo === ToastWrapper.Left && root.flushEdge) ? parent.left : undefined
-        anchors.right: (collapseTo === ToastWrapper.Right && root.flushEdge) ? parent.right : undefined
+        readonly property real m: Appearance.toast.margin
+        readonly property real vo: root.collapseTo === ToastWrapper.Top ? -1 : root.collapseTo === ToastWrapper.Bottom ? 1 : 0
+        readonly property real ho: root.collapseTo === ToastWrapper.Left ? -1 : root.collapseTo === ToastWrapper.Right ? 1 : 0
 
-        anchors.topMargin: 0
-        anchors.bottomMargin: 0
-        anchors.leftMargin: 0
-        anchors.rightMargin: 0
+        anchors.centerIn: parent
+        anchors.verticalCenterOffset: root.flushEdge ? m * vo : 0
+        anchors.horizontalCenterOffset: root.flushEdge ? m * ho : 0
+
+        Behavior on anchors.horizontalCenterOffset {
+            Animations.CaelestialNumber {
+                duration: Animations.durations.small
+            }
+        }
+
+        Behavior on anchors.verticalCenterOffset {
+            Animations.CaelestialNumber {
+                duration: Animations.durations.small
+            }
+        }
 
         width: childrenRect.width
         height: childrenRect.height

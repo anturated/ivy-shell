@@ -62,7 +62,9 @@ ToastWrapper {
             anchors.top: bg.top
             side: "left"
             Behavior on anchors.rightMargin {
-                Animations.CaelestialNumber {}
+                Animations.CaelestialNumber {
+                    duration: Animations.durations.small
+                }
             }
         }
 
@@ -72,7 +74,9 @@ ToastWrapper {
             anchors.top: bg.top
             side: "right"
             Behavior on anchors.leftMargin {
-                Animations.CaelestialNumber {}
+                Animations.CaelestialNumber {
+                    duration: Animations.durations.small
+                }
             }
         }
 
@@ -96,10 +100,14 @@ ToastWrapper {
                 Animations.CaelestialNumber {}
             }
             Behavior on topLeftRadius {
-                Animations.CaelestialNumber {}
+                Animations.CaelestialNumber {
+                    duration: Animations.durations.small
+                }
             }
             Behavior on topRightRadius {
-                Animations.CaelestialNumber {}
+                Animations.CaelestialNumber {
+                    duration: Animations.durations.small
+                }
             }
 
             RowLayout {
@@ -147,7 +155,9 @@ ToastWrapper {
                 opacity: root.expanded ? 0 : 1
                 visible: opacity > 0
                 Behavior on opacity {
-                    Animations.CaelestialNumber {}
+                    Animations.CaelestialNumber {
+                        duration: Animations.durations.normal / 2
+                    }
                 }
             }
 
