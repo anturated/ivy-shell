@@ -8,14 +8,14 @@ Singleton {
     id: root
 
     readonly property Spacings spacing: Spacings {}
-    readonly property Radii raduis: Radii {}
+    readonly property Radii radius: Radii {}
     readonly property Toasts toast: Toasts {}
     readonly property Dashboard dashboard: Dashboard {}
 
     component Toasts: QtObject {
         readonly property int thickness: 35
         readonly property int margin: 3
-        readonly property int rounding: root.raduis.l
+        readonly property int rounding: root.radius.l
     }
 
     component Dashboard: QtObject {
