@@ -265,7 +265,7 @@ ToastWrapper {
 
                             Column {
                                 id: nc
-                                spacing: Appearance.spacing.m
+                                spacing: Appearance.spacing.xs
                                 padding: Appearance.spacing.m
                                 anchors.left: parent.left
                                 anchors.right: parent.right
@@ -277,14 +277,14 @@ ToastWrapper {
                                     color: Colors.on_background
                                     elide: Text.ElideRight
                                     font.weight: Font.Medium
-                                    font.pixelSize: 17
+                                    font.pixelSize: 15
                                 }
 
                                 CustomText {
                                     id: nb
                                     text: notifObject.modelData.body.slice(0, 300)
                                     color: Colors.outline
-                                    wrapMode: Text.WordWrap
+                                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                     font.pixelSize: 14
                                     width: parent.width
                                     maximumLineCount: 3
