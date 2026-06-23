@@ -226,75 +226,71 @@ ToastWrapper {
 
     component DashboardView: Item {
         id: dash
-        property int activeTab: 0
 
-        readonly property list<color> tabColors: [Colors.surface_container, Colors.secondary, Colors.tertiary, Colors.error]
+        // notifs section
+        CustomClipRect {
+            id: notifs
 
-        // tab strip on the right
-        Column {
-            id: tabBar
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.margins: Appearance.spacing.l
-            width: 36
-            spacing: Appearance.spacing.m
+            radius: Appearance.radius.l
+            color: Colors.surface_container
+            width: parent.width / 2
 
-            Repeater {
-                model: dash.tabColors.length
-
-                Rectangle {
-                    required property int index
-                    readonly property bool isActive: dash.activeTab === index
-
-                    width: tabBar.width
-                    height: tabBar.width
-                    radius: isActive ? Appearance.raduis.m : Appearance.raduis.s
-                    color: isActive ? Colors.primary : Colors.surface_container_high
-
-                    Behavior on color {
-                        Animations.CaelestialColor {}
-                    }
-                    Behavior on radius {
-                        Animations.CaelestialNumber {}
-                    }
-
-                    TapHandler {
-                        onTapped: dash.activeTab = index
-                    }
-                }
-            }
-        }
-
-        // content pane
-        Item {
             anchors.left: parent.left
             anchors.top: parent.top
-            anchors.right: tabBar.left
             anchors.bottom: parent.bottom
             anchors.margins: Appearance.spacing.l
 
-            Repeater {
-                model: dash.tabColors
+            Flickable {
+                anchors.fill: parent
+                contentWidth: width
+                contentHeight: notifsLayout.height
+                anchors.margins: Appearance.spacing.m
 
-                Rectangle {
-                    required property int index
-                    required property color modelData
+                ColumnLayout {
+                    id: notifsLayout
+                    width: parent.width
 
-                    anchors.fill: parent
-                    color: modelData
-                    radius: Appearance.raduis.m
-                    opacity: dash.activeTab === index ? 1 : 0
-                    visible: opacity > 0
-                    Behavior on opacity {
-                        Animations.CaelestialNumber {}
-                    }
+                    Repeater {
+                        model: Notifs.server.trackedNotifications.values
 
-                    CustomText {
-                        text: Power.charge + "%"
-                        color: Colors.on_background
-                        font.family: Fonts.maple
-                        font.pixelSize: 30
+                        CustomClipRect {
+                            id: notifObject
+                            required property Notification modelData
+
+                            Layout.preferredWidth: notifsLayout.width
+                            Layout.preferredHeight: nc.height
+
+                            color: Colors.surface
+                            radius: Appearance.radius.m
+
+                            Column {
+                                id: nc
+                                spacing: Appearance.spacing.m
+                                padding: Appearance.spacing.m
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+
+                                // title
+                                CustomText {
+                                    id: ns
+                                    text: notifObject.modelData.summary
+                                    color: Colors.on_background
+                                    elide: Text.ElideRight
+                                    font.weight: Font.Medium
+                                    font.pixelSize: 17
+                                }
+
+                                CustomText {
+                                    id: nb
+                                    text: notifObject.modelData.body.slice(0, 300)
+                                    color: Colors.outline
+                                    wrapMode: Text.WordWrap
+                                    font.pixelSize: 14
+                                    width: parent.width
+                                    maximumLineCount: 3
+                                }
+                            }
+                        }
                     }
                 }
             }
