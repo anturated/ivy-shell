@@ -72,7 +72,7 @@ ToastWrapper {
 
         Wing {
             anchors.right: bg.left
-            anchors.rightMargin: root.expanded ? 0 : -width
+            anchors.rightMargin: root.expanded ? 0 : -width - root.r
             anchors.top: bg.top
             side: "left"
             Behavior on anchors.rightMargin {
@@ -84,7 +84,7 @@ ToastWrapper {
 
         Wing {
             anchors.left: bg.right
-            anchors.leftMargin: root.expanded ? 0 : -width
+            anchors.leftMargin: root.expanded ? 0 : -width - root.r
             anchors.top: bg.top
             side: "right"
             Behavior on anchors.leftMargin {
