@@ -31,6 +31,8 @@ CustomText {
             return "󰨞";
         else if (["dev.zed.Zed-Preview"].includes(cls))
             return "󱃖";
+        else if (["thunar", "nemo", "org.gnome.Nautilus"].includes(cls) || title.includes("Yazi:"))
+            return "";
         else if (["kitty", "floating-kitty"].includes(cls))
             if (title.includes(" - Nvim"))
                 return "";
@@ -38,8 +40,6 @@ CustomText {
                 return "";
             else
                 return "󰅭";
-        else if (cls == "thunar")
-            return "";
         else if (cls == "steam")
             return "󰓓";
         else if (["zen", "vivaldi-stable"].includes(cls))
