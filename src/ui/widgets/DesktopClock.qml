@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Effects
 
 import qs.ui.custom
 import qs.services
@@ -13,6 +14,13 @@ ColumnLayout {
 
     CustomClock {
         id: clock
+
+        layer.enabled: true
+        layer.effect: MultiEffect {
+            shadowEnabled: true
+            shadowOpacity: 0.7
+            shadowColor: Colors.background
+        }
     }
 
     component CustomClock: ColumnLayout {
