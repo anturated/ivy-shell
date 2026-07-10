@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Shapes
+import QtQuick.Effects
 import Quickshell
 import Quickshell.Wayland
 
@@ -62,5 +63,12 @@ Variants {
         height: 75 / 2
         color: Colors.on_background
         anchors.margins: Appearance.spacing.m
+
+        layer.enabled: true
+        layer.effect: MultiEffect {
+            shadowEnabled: true
+            shadowOpacity: 0.7
+            shadowColor: Colors.background
+        }
     }
 }
