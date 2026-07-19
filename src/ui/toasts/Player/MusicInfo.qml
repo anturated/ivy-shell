@@ -69,13 +69,8 @@ CustomRect {
             Behavior on height {
                 Animations.CaelestialNumber {}
             }
-            opacity: mi.big ? 1 : 0
+            opacity: mi.big ? 0.7 : 0
             radius: Appearance.toast.rounding
-
-            layer.enabled: true
-            layer.effect: MultiEffect {
-                brightness: -0.5
-            }
         }
     }
 
@@ -135,6 +130,12 @@ CustomRect {
 
         // name/artist
         Item {
+
+            layer.enabled: true
+            layer.effect: MultiEffect {
+                shadowEnabled: true
+                shadowColor: Colors.background
+            }
             Layout.preferredHeight: dimensions
             Behavior on Layout.preferredHeight {
                 Animations.CaelestialNumber {}
