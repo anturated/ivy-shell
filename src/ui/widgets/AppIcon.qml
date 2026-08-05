@@ -64,6 +64,8 @@ CustomText {
             return "";
         else if (cls == "anytype")
             return "";
+        else if (cls == "md.Obsidian")
+            return "󱓧";
         else
             return "";
     }
