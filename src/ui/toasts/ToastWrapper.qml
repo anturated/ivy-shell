@@ -90,9 +90,9 @@ Item {
             name: "hidden"
             PropertyChanges {
                 root.anchors.leftMargin: collapseTo === ToastWrapper.Left ? -(contentItem.width + Appearance.toast.margin) : 0
-                root.anchors.rightMargin: collapseTo === ToastWrapper.Right ? (contentItem.width + Appearance.toast.margin) : 0
+                root.anchors.rightMargin: collapseTo === ToastWrapper.Right ? -(contentItem.width + Appearance.toast.margin) : 0
                 root.anchors.topMargin: collapseTo === ToastWrapper.Top ? -(contentItem.height + Appearance.toast.margin) : 0
-                root.anchors.bottomMargin: collapseTo === ToastWrapper.Bottom ? (contentItem.height + Appearance.toast.margin) : 0
+                root.anchors.bottomMargin: collapseTo === ToastWrapper.Bottom ? -(contentItem.height + Appearance.toast.margin) : 0
             }
         },
         State {
