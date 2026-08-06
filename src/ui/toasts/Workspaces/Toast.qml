@@ -16,7 +16,7 @@ ToastWrapper {
 
     Timer {
         id: peek_timer
-        interval: 1000
+        interval: 500
         running: false
         repeat: false
 
