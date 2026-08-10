@@ -10,6 +10,7 @@ Item {
 
     required property int collapseTo
     required property ShellScreen screen
+    required property string name
 
     property bool forceOpen: false
     property bool flushEdge: false
@@ -30,38 +31,50 @@ Item {
         Full = 2
     }
 
-    readonly property bool overshadowed: {
-        const ws = Hypr.workspacesForScreen(screen).find(w => w.active);
-        const windows = Hypr.windowsForWorkspace(ws).map(w => w.lastIpcObject);
-
-        const sw = screen.width, sh = screen.height;
-        const sx = screen.x, sy = screen.y;
-        const cw = root.width, ch = root.height;
-
-        let rx, ry;
+    property real rx: {
         if (collapseTo === ToastWrapper.Top) {
-            rx = sx + (sw - cw) / 2;
-            ry = sy;
+            return sx + (sw - cw) / 2;
         } else if (collapseTo === ToastWrapper.Bottom) {
-            rx = sx + (sw - cw) / 2;
-            ry = sy + sh - ch;
+            return sx + (sw - cw) / 2;
         } else if (collapseTo === ToastWrapper.Left) {
-            rx = sx;
-            ry = sy + (sh - ch) / 2;
+            return sx;
         } else {
-            rx = sx + sw - cw;
-            ry = sy + (sh - ch) / 2;
+            return sx + sw - cw;
         }
-
-        return windows.some(w => {
-            if (!w.at)
-                return false;
-            const [wl, wt] = w.at;
-            const [ww, wh] = w.size;
-            // AABB intersection
-            return rx < wl + ww && rx + cw > wl && ry < wt + wh && ry + ch > wt;
-        });
     }
+
+    property real ry: {
+        if (collapseTo === ToastWrapper.Top) {
+            return sy;
+        } else if (collapseTo === ToastWrapper.Bottom) {
+            return sy + sh - ch;
+        } else if (collapseTo === ToastWrapper.Left) {
+            return sy + (sh - ch) / 2;
+        } else {
+            return sy + (sh - ch) / 2;
+        }
+    }
+
+    // grab once
+    readonly property var ws: Hypr.workspacesForScreen(screen).find(w => w.active)
+    readonly property var windows: Hypr.windowsForWorkspace(ws).map(w => w.lastIpcObject)
+    readonly property var sw: screen.width
+    readonly property var sh: screen.height
+    readonly property var sx: screen.x
+    readonly property var sy: screen.y
+    readonly property var cw: root.width
+    readonly property var ch: root.height
+
+    readonly property bool overshadowed: windows.some(w => {
+        if (!w.at)
+            return false;
+
+        const [wl, wt] = w.at;
+        const [ww, wh] = w.size;
+
+        // AABB intersection
+        return rx < wl + ww && rx + cw > wl && ry < wt + wh && ry + ch > wt;
+    })
 
     // ── visibility state ──────────────────────────────────────────────────────
     function _updateVisibility() {
