@@ -7,8 +7,6 @@ Singleton {
     property bool active: false
     property bool _sawClientCount: false
 
-    onActiveChanged: print(active)
-
     Process {
         command: ["busctl", "--user", "monitor", "com.feralinteractive.GameMode"]
         running: true
