@@ -34,6 +34,8 @@ data_format=ascii
 ascii_max_range=100' > "${configPath}"`]);
     }
 
+    onActiveChanged: bars = []
+
     // TODO: auto create cache folder
 
     Process {
